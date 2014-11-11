@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="js/mustache.js"></script>
+
+  </head>
+
+  <body onload="initMoustache()">
+    <script id="template" type="x-tmpl-mustache">
+      <div class="status">
+        <img src="/images/{{piido}}.png" onerror="this.src = '/images/frijolito.png'" class="img-thumbnail icon"/>
+        <p>{{piido}}: ¡Hola mundo!... Hello world!</p>
+      </div>
+    </script>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+          <h1>PIÓDROMO COCTELERO</h1>
+
+          <div id="content"></div>
+
+          <div>
+            <div class="inner">
+              <input id="piido" type="text" name="piido" value="" size="8" />
+              <form id="piar" action="/">
+                <button type="button" class="btn btn-default"><img src="images/chair.png" class="msg-icon" data-icon="chair.png" /></button>
+              </form>
+            </div>
+            <div class="inner">
+              <form id="tuitear" action="/tuits" method="POST">
+                <button type="button" class="btn btn-default"><img src="images/drink24.png" class="msg-icon" data-icon="drink24.png" /></button>
+              </form>
+              <select name="host" id="host">
+                <option value="" default="default">local</option>
+                <option value="http://lacoctuitera.es">lacoctuitera.es</option>
+                <option value="http://asturianu.lacoctuitera.es">asturianu.lacoctuitera.es</option>
+                <option value="http://galego.lacoctuitera.es">galego.lacoctuitera.es</option>
+                <option value="http://castellano.lacoctuitera.es">castellano.lacoctuitera.es</option>
+                <option value="http://colombiano.lacoctuitera.es">colombiano.lacoctuitera.es</option>
+                <option value="http://venezolano.lacoctuitera.es">venezolano.lacoctuitera.es</option>
+                <option value="http://mexicano.lacoctuitera.es">mexicano.lacoctuitera.es</option>
+                <option value="http://mandarin.lacoctuitera.es">mandarin.lacoctuitera.es</option>
+                <option value="http://elfico.lacoctuitera.es">elfico.lacoctuitera.es</option>
+                <option value="http://klingon.lacoctuitera.es">klingon.lacoctuitera.es</option>
+                <option value="http://coctelero.lacoctuitera.es">coctelero.lacoctuitera.es</option>
+              </select>
+            </div>
+              <button id="download" type="button" class="btn btn-default"><img src="images/download.png" class="msg-icon" data-icon="download.png" /></button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <script>
+      var socket, host, wshost, template;
+      host = '<%= "http://#{request.env['SERVER_NAME']}:#{request.env['SERVER_PORT']}/" %>';
+      wshost = 'ws://<%="#{request.env['SERVER_NAME']}:3001" %>';
+
+      // Metemos en alm. local los tuits recividos en el servidor
+      var tuits_submitted = <%= @tuits_submitted %>;
+      for (var key in tuits_submitted){
+        localStorage.setItem(key, tuits_submitted[key]);
+      }
+    </script>
+
+    <script src="js/general.js"></script>
+  </body>
+</html>
